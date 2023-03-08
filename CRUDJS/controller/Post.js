@@ -28,13 +28,15 @@ async function createPost(req,res){
 async function editPost(req,res){
     try {
         const posts = await post.findById(req.params.id)
+        if(!posts){
+            return res.status(404).json({message:'Post Not Found'})
+          }
         console.log('Updating')
-        posts.caption = req.body.caption
         posts.location = req.body.location
         const p1= await posts.save()
         res.status(202).json({message:'Updated Succefully'})
     } catch (error) {
-          res.send(err)
+          res.send(error)
     }
 }
 
@@ -59,8 +61,25 @@ async function like(req,res){
        res.status(200).json({message:'You disliked the post'})
      } 
    } catch (error) {
-       res.status(500).json({message:error})
+       res.status(500).json({message:error})                            
    }
+    
+}
+
+async function comment(req,res){
+    try{ 
+        const posts = await post.findById(req.params.id)
+        if(!posts){
+            return res.status(404).json({message:'Post not found'})
+        }
+        else{
+            return res.status(200).json({message:posts})
+        }
+
+    }
+    catch(error){
+        res.status(500).json({message:error})
+    }
     
 }
 
@@ -68,5 +87,6 @@ module.exports ={
     createPost,
     editPost,
     deletepost,
-    like
+    like,
+    comment
 }

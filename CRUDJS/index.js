@@ -9,7 +9,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/social-media', {
     
 }).then(()=>{
     console.log('DB Connected')
-}).catch(()=>{
+}).catch((err)=>{
     console.log(err)
 })
 const PORT = process.env.PORT || 3000

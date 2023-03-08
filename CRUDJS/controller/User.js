@@ -51,18 +51,19 @@ async function LogIN(req, res) {
       return;
     }
     const exist1 = await hashvalidate(req.body.password, exist.password);
-    //console.log(exist1);
+    console.log(exist1);
     if (!exist1) {
       res.status(400).json("Password invalid");
       return;
     }
+    console.log('ddd');
     const token = await tokengenerate(exist.email);
-    //console.log(token);
+    // console.log(token);
     // res.cookie("jwt", token);
 
-    res.status(200).send({ message: "Welcome to Soc Media", data: token });
+    res.status(202).json({ message: "Welcome to Soc Media", data: token });
   } catch (err) {
-    res.json(err);
+    res.send('err');
   }
 }
 async function editUser(req,res){
@@ -73,7 +74,7 @@ async function editUser(req,res){
           }
           console.log('Updating')
           users.First_name= req.body.First_name
-          console.log(users.First_name)
+          // console.log(users.First_name)
           const u1=await users.save()
           res.status(202).json({message:'Updated Successfully'})
      } catch (error) {
